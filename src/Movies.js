@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import CircularProgress from "@mui/material/CircularProgress";
-import { array10, array50, array100 } from "./arrayData";
+import { array10 } from "./arrayData";
 
 export const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -26,22 +26,26 @@ export const Movies = () => {
   const [selectPageItems, setPageItems] = useState(array10);
   const [isLoading, setIsLoading] = useState(false);
 
+  const fillSelectArray = (length) => {
+    let arrayLength = 1000 / length;
+    let array = []
+    for(let i = 1; i < arrayLength + 1; i++){
+      array.push(i);
+    }
+    setPageItems(array);
+  }
+
   const handleLimitChange = (e) => {
     setNbItems(e.target.value);
-    if(nbItems === 10){
-      setPageItems(array10);
-    } else if(nbItems === 50){
-      setPageItems(array50);
-    } else{
-      setPageItems(array100);
-    }
   };
 
   const handleOrderChange = (e) => {
+    setPage(1);
     setOrder(e.target.value);
   };
 
   const handleSortChange = (e) => {
+    setPage(1);
     setSort(e.target.value);
   };
 
@@ -51,13 +55,17 @@ export const Movies = () => {
 
   useEffect(() => {
     if(nbItems === 10){
-      setPageItems(array10);
+      setPage(1)
+      fillSelectArray(10)
     } else if(nbItems === 50){
-      setPageItems(array50);
+      setPage(1)
+      fillSelectArray(50)
     } else{
-      setPageItems(array100);
+      setPage(1)
+      fillSelectArray(100)
     }
   }, [nbItems]);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,14 +80,12 @@ export const Movies = () => {
     fetchData();
   }, [nbItems, order, sort, page]);
 
-  console.log(movies);
-
   return (
     <React.Fragment>
       <div style={{ maxWidth: "1500px", margin: "auto", paddingTop: "50px" }}>
         <Box sx={{ display: "grid" }}>
           <Grid container spacing={2}>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <FormControl fullWidth>
                 <InputLabel id="items-select-label">ITEMS</InputLabel>
                 <Select
@@ -95,7 +101,7 @@ export const Movies = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <FormControl fullWidth>
                 <InputLabel id="order-select-label">ORDER</InputLabel>
                 <Select
@@ -110,7 +116,7 @@ export const Movies = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <FormControl fullWidth>
                 <InputLabel id="sort-select-label">SORT</InputLabel>
                 <Select
@@ -122,13 +128,13 @@ export const Movies = () => {
                 >
                   <MenuItem value={"title"}>Title</MenuItem>
                   <MenuItem value={"name"}>Genre</MenuItem>
-                  <MenuItem value={"rental"}>Number of rental</MenuItem>
+                  <MenuItem value={"rental"}>Rentals</MenuItem>
                   <MenuItem value={"rental_rate"}>Rental Price</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
-              <FormControl sx={{ m: 1, minWidth: 80 }}>
+            <Grid item xs={3}>
+              <FormControl fullWidth>
                 <InputLabel id="page-select-autowidth-label">Page</InputLabel>
                 <Select
                   labelId="page-select-autowidth-label"
@@ -166,13 +172,14 @@ export const Movies = () => {
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
+                          hover
                         >
                           <TableCell align="center" component="th" scope="row">
                             {movie.title}
                           </TableCell>
                           <TableCell align="center">{movie.name}</TableCell>
                           <TableCell align="center">{movie.rating}</TableCell>
-                          <TableCell align="center">N/A</TableCell>
+                          <TableCell align="center">{movie.rental}</TableCell>
                           <TableCell align="center">{movie.rental_rate} €</TableCell>
                         </TableRow>
                       ))}
