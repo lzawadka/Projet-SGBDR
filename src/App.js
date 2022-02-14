@@ -1,13 +1,13 @@
 import './App.css';
 import { Movies } from './Movies';
-import { Link } from '@mui/material';
 
 function App() {
   return (
     <div className="App">
-      <h1 style={{textAlign: 'center'}}>Movie Project</h1>
+      <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+        <h1 style={{textAlign: 'center', fontWeight: 'bold'}}>Movie Project SGBDR</h1>
+      </div>
       <Movies />
-      <p style={{textAlign: 'center'}}>Made by Louis Zawadka for <Link href="https://dev.glassworks.tech/">Kevin Glass's</Link> school project with HETIC</p>
     </div>
   );
 }
