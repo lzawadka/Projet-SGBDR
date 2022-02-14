@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <h1 style={{textAlign: 'center'}}>Movie Project</h1>
       <Movies />
-      <p style={{textAlign: 'center'}}>Made by Clément Jacquelet for <Link href="https://dev.glassworks.tech/">Kevin Glass's</Link> school project with HETIC</p>
+      <p style={{textAlign: 'center'}}>Made by Louis Zawadka for <Link href="https://dev.glassworks.tech/">Kevin Glass's</Link> school project with HETIC</p>
     </div>
   );
 }
